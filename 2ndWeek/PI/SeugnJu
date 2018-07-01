@@ -1,0 +1,73 @@
+import java.io.BufferedReader;
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+public class Main {
+        public static void main(String[] args) throws IOException {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                int T = Integer.parseInt(br.readLine().trim());
+                for(int t=0;t<T;t++) {
+                        String input = br.readLine().trim();
+                        int[] dp = new int[input.length()+1];
+                        dp[3] = check(0,2,input);
+                        dp[2] = 50000000;
+                        dp[1] = 50000000;
+                        dp[0] = 0;
+                        for(int i=4;i<=input.length();i++){
+                                dp[i] = 1000000000;
+                                for(int j=i-2;j>=Math.max(1,i-4);j--){
+                               //         System.out.println(j+" "+i+" "+check(j-1,i-1,input));
+                                                dp[i] = Math.min(dp[i],dp[j-1]+check(j-1,i-1,input));
+                                }
+                        }
+                        System.out.println(dp[input.length()]);
+                }
+        }
+        public static int check(int l,int r,String input){
+                if(checkOne(l,r,input)) return 1;
+                if(checktwo(l,r,input)) return 2;
+                if(checkthree(l,r,input)) return 4;
+                if(checkfour(l,r,input)) return 5;
+                return 10;
+        }
+        public static boolean checkOne(int l,int r,String input){
+                for(int i=l;i<=r;i++){
+                        if(input.charAt(i)!=input.charAt(l)){
+                                return false;
+                        }
+                }
+                return true;
+        }
+        public static boolean checktwo(int l,int r,String input){
+                int v=  input.charAt(l+1) - input.charAt(l);
+                if(Math.abs(v)!=1) return false;
+                for(int i=l;i<r;i++){
+                        if(input.charAt(i+1)-input.charAt(i)!=v) return  false;
+                }
+                return true;
+        }
+        public static boolean checkthree(int l,int r,String input){
+                char n1 = input.charAt(l);
+                char n2 = input.charAt(l+1);
+                if(n1==n2) return false;
+                int cnt = 0;
+                for(int i=l;i<=r;i++){
+                        if(cnt%2==0){
+                             if(input.charAt(i)!=n1) return false;
+                        }
+                        else{
+                                if(input.charAt(i)!=n2) return false;
+                        }
+                        cnt++;
+                }
+                return true;
+        }
+        public static boolean checkfour(int l,int r,String input){
+                int v=  input.charAt(l+1) - input.charAt(l);
+                for(int i=l;i<r;i++){
+                        if(input.charAt(i+1)-input.charAt(i)!=v) return  false;
+                }
+                return true;
+        }
+}
