@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOError;
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class Main {
                         int[][] mapping = new int[n+1][m+1];
 
                         for(int j=1;j<=m;j++){
-                                double classf = classfi[j][inits        ];
+                                double classf = classfi[j][inits];
                                 double initP = init[j];
                                 dp[1][j] = initP*classf;
                         }
